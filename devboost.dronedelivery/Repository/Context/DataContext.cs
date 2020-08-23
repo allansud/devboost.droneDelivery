@@ -1,10 +1,5 @@
 ﻿using devboost.dronedelivery.Model;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 
 namespace devboost.dronedelivery.Repository.Context
 {
@@ -16,7 +11,10 @@ namespace devboost.dronedelivery.Repository.Context
         }
 
         public DbSet<Drone> Drone { get; set; }
+
         public DbSet<Pedido> Pedido { get; set; }
+
+        public DbSet<PedidoDrone> PedidosDrones { get; set; }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
@@ -32,8 +30,31 @@ namespace devboost.dronedelivery.Repository.Context
 
             builder.Entity<Pedido>().HasKey(x => x.Id);
 
-            builder.Entity<Pedido>().HasOne(x => x.Drone)
-                .WithMany(x => x.Pedidos)
+            //builder.Entity<Pedido>().HasOne(x => x.Drone)
+            //    .WithMany(x => x.Pedidos)
+            //    .HasForeignKey(x => x.DroneId);
+
+            builder.Entity<PedidoDrone>().ToTable("Pedido_Drone");
+
+            builder.Entity<PedidoDrone>()
+                .HasKey(x => new { x.PedidoId, x.DroneId });
+
+            builder.Entity<PedidoDrone>()
+                .Property(x => x.PedidoId)
+                .HasColumnName("Pedido_Id");
+
+            builder.Entity<PedidoDrone>()
+                .Property(x => x.DroneId)
+                .HasColumnName("Drone_Id");
+
+            builder.Entity<PedidoDrone>()
+                .HasOne(x => x.Pedido)
+                .WithMany(x => x.PedidosDrones)
+                .HasForeignKey(x => x.PedidoId);
+
+            builder.Entity<PedidoDrone>()
+                .HasOne(x => x.Drone)
+                .WithMany(x => x.PedidosDrones)
                 .HasForeignKey(x => x.DroneId);
         }
     }

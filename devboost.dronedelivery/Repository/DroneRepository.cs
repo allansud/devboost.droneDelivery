@@ -1,7 +1,6 @@
 ﻿using devboost.dronedelivery.Model;
 using devboost.dronedelivery.Repository.Context;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,7 +29,7 @@ namespace devboost.dronedelivery.Repository
 
         public async Task<List<Drone>> GetAll()
         {
-            var drones = await _dataContext.Drone.Include(x => x.Pedidos).ToListAsync();
+            var drones = await _dataContext.Drone.ToListAsync();
             return drones;
         }
     }

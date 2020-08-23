@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace devboost.dronedelivery.Service
 {
@@ -57,7 +56,7 @@ namespace devboost.dronedelivery.Service
 
                     //Qual automomia atual do drone = (Autonomia * Carga) / 100
                     //Temos que pegar os Drones com AA >= Distancia do Pedido * 2
-                    var dronesDispAutonomia = drones?.Where(x => (((x.Autonomia * x.Carga) / 100) * x.Velocidade) >= (distance * 2))?.ToList();
+                    var dronesDispAutonomia = drones?.Where(x => (x.Autonomia * x.Carga / 100 * x.Velocidade) >= (distance * 2))?.ToList();
 
                     //Dos Drones com autonomia, quais podem carregar o peso do pedido
                     var dronesComCapacidade = dronesDispAutonomia?.Where(x => x.Capacidade >= pedido.Peso)?.ToList();

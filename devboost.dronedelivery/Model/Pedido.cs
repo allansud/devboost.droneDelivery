@@ -1,19 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace devboost.dronedelivery.Model
 {
     public class Pedido
     {
         public Guid Id { get; set; }
+
         public int Peso { get; set; }
+
         //public SqlGeography LatLong { get; set; }
         public double Latitude { get; set; }
+
         public double Longitude { get; set; }
+
         public DateTime DataHora { get; set; }
-        public int? DroneId { get; set; }
-        public Drone Drone { get; set; }
+
+        //public int? DroneId { get; set; }
+
+        //public Drone Drone { get; set; }
 
         public StatusPedido StatusPedido { get; set; }
+
+        public List<PedidoDrone> PedidosDrones { get; set; }
     }
 
     public enum StatusPedido
